@@ -1,0 +1,129 @@
+
+*{
+  padding:0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+main{
+  display: flex;
+  flex-direction: row;
+  padding: 1.5rem 5rem;
+  padding-top: 9rem;
+  background-color: var(--ligth-grey-color);
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+section, nav{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0.6rem;
+}
+
+.sidebar{
+  position: sticky;
+  top: 9rem;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  height: 13rem;
+  width: 14rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigation-links li{
+  list-style: none;
+}
+
+.navigation-links a{
+  padding: 0.5rem;
+  font-family: var(--normal-text-font);
+  text-decoration: none;
+  color: var(--dark-grey-color);
+  display: flex;
+  gap: 0.8rem;
+  font-size: 1.4rem;
+}
+
+.middle{
+  flex:1;
+  border-radius: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.middle .create-post{
+  background-color: white;
+  width:100%;
+  height: auto;
+  padding: 1.3rem 3rem;
+  font-family: var(--normal-text-font);
+  font-size: 2rem;
+}
+
+.create-post textarea{
+  padding: 0.7rem;
+  width: 100%;
+  font-size: 1.4rem;
+  margin: 1rem 0rem;
+}
+
+.create-post .buttonarea{
+  display: flex;
+  justify-content: end;
+  gap: 0.8rem;
+}
+
+.create-post button{
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  font-family: var(--normal-text-font);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.create-post #button-post{
+  color: white;
+  background-color: var(--dark-brown-color);
+}
+
+.middle .post{
+  background-color: white;
+  height: 20rem;
+}
+
+.friend-list-section{
+  position: sticky;
+  top: 9rem;
+  background-color: white;
+  padding: 0.5rem;
+  max-height: 27rem;
+  width: 14rem;
+  font-size: 1.2rem;
+  font-family: var(--normal-text-font);
+  text-align: center;
+}
+
+.friend-list{
+  height: 80%;
+  list-style: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.friend-list li{
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  gap: 0.6rem;
+}
+
+.friend-list .friend-profile{
+  height: 2rem;
+  width:  2rem;
+  background-color: #6e4e24;
+  border-radius: 50px;
+  object-fit: contain;
+}

@@ -1,0 +1,73 @@
+@import url("root.css");
+@import url("feed.css");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+   font-family: var(--normal-text-font);
+}
+
+.profile-container {
+  width: 60%;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.profile-header {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #333;
+}
+
+.bio {
+  color: gray;
+  margin-top: 10px;
+}
+
+.profile-posts .post {
+  background: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.actions{
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.follow {
+  color: white;
+  height: 2rem;
+  width: 5rem;
+  background-color: var(--dark-brown-color);
+  border-radius: 50px;
+  border-style: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.follow:hover{
+  background-color: var(--ligth-brown-color);
+}
+
+.follow:active{
+  background-color: white;
+  color:black ;
+  border-style: solid;
+}
