@@ -16,7 +16,6 @@
   padding: 0 2rem;
   background-color: var(--ligth-brown-color );
   border-radius: 10px 10px 0px 0px;
-  
 }
 
 .post-body{
@@ -44,4 +43,9 @@
   padding: 0 2rem;
   gap: 1rem;
   border-radius: 0px 0px 10px 10px;
+}
+
+.post-header a strong {
+  text-decoration: none;
+  color: white;
 }

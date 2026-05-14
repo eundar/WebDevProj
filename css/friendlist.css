@@ -1,0 +1,45 @@
+.friend-list-section{
+  position: sticky;
+  top: 9rem;
+  background-color: white;
+  padding: 0.5rem;
+  max-height: 27rem;
+  width: 14rem;
+  font-size: 1.2rem;
+  font-family: var(--normal-text-font);
+  text-align: center;
+}
+
+.friend-list{
+  height: 80%;
+  list-style: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.friend-list li{
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  gap: 0.6rem;
+}
+
+.friend-list li a {
+  text-decoration: none;
+  color: black;
+}
+
+.friend-list .friend-profile{
+  height: 2rem;
+  width:  2rem;
+  background-color: #6e4e24;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.friend-list .friend-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50px;
+}

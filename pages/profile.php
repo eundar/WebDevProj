@@ -36,11 +36,15 @@ $checkStmt->close();
   <meta charset="UTF-8">
   <title><?php echo htmlspecialchars($user['username']); ?> Profile</title>
   <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
-<body>
+<header>
+  <?php include '../components/header.php'; ?>
+</header>
 
+<body>
   <div class="profile-container">
 
     <div class="profile-header">
