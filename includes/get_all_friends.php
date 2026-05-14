@@ -5,7 +5,7 @@ function get_friends($connection, $user_id)
 {
   // We look for 'friend_id' where 'user_id' is ME
   // We JOIN with the users table to get their actual names
-  $query = "SELECT users.user_id, users.username
+  $query = "SELECT users.user_id, users.username, users.profile_pic
             FROM friends 
             JOIN users ON friends.friend_id = users.user_id 
             WHERE friends.user_id = ?";

@@ -21,10 +21,12 @@ if (!empty($all_friends)):
       <ul class="friend-list">
         <?php foreach ($all_friends as $friend): ?>
           <li>
-            <figure class="friend-profile"></figure>
-              <a href="../pages/profile.php?id=<?php echo $friend['user_id']; ?>">
-                <p class="friend-name"><?php echo htmlspecialchars($friend['username']); ?></p>
-              </a>
+            <figure class="friend-profile">
+              <img src="<?php echo !empty($friend['profile_pic']) ? $friend['profile_pic'] : '../assets/defaultprofile.png'; ?>" alt="Profile Picture">
+            </figure>
+            <a href="../pages/profile.php?id=<?php echo $friend['user_id']; ?>">
+              <p class="friend-name"><?php echo htmlspecialchars($friend['username']); ?></p>
+            </a>
           </li>
         <?php endforeach; ?>
       </ul>

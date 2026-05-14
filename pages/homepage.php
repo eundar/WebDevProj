@@ -18,6 +18,14 @@ require_once '../auth/auth_crud/auth_check.php';
 include '../db_config/db.php';
 // User is logged in, continue with page
 $user_id = $_SESSION['user_id'];
+
+$stmt = $connection->prepare("SELECT profile_pic FROM users WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+$profile_pic = !empty($user['profile_pic']) ? $user['profile_pic'] : '../assets/defaultprofile.png';
+$stmt->close();
 ?>
 
 

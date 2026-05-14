@@ -11,7 +11,7 @@ if (!$user_id) {
 }
 
 /* Get user info */
-$stmt = $connection->prepare("SELECT user_id, username FROM users WHERE user_id = ?");
+$stmt = $connection->prepare("SELECT user_id, username, profile_pic, bio FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -45,7 +45,7 @@ $checkStmt->close();
 
     <div class="profile-header">
 
-      <img class="profile-pic" src="">
+      <img class="profile-pic" src="<?php echo !empty($user['profile_pic']) ? $user['profile_pic'] : '../assets/defaultprofile.png'; ?>" alt="Profile Picture">
 
       <h1><?php echo htmlspecialchars($user['username']); ?></h1>
 
