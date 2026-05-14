@@ -1,7 +1,9 @@
 <?php
 session_start();
 include '../db_config/db.php';
+require_once '../auth/auth_crud/auth_check.php';
 
+$logged_in_user_id = $_SESSION['user_id'];
 $user_id = $_GET['id'] ?? null;
 
 if (!$user_id) {
@@ -11,7 +13,6 @@ if (!$user_id) {
 /* Get user info */
 $stmt = $connection->prepare("SELECT user_id, username FROM users WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);
-
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -19,6 +20,13 @@ if (!$user = $result->fetch_assoc()) {
   die("User not found.");
 }
 $stmt->close();
+
+/* Check if already following */
+$checkStmt = $connection->prepare("SELECT * FROM friends WHERE user_id = ? AND friend_id = ?");
+$checkStmt->bind_param("ii", $logged_in_user_id, $user_id);
+$checkStmt->execute();
+$isFollowing = $checkStmt->get_result()->num_rows > 0;
+$checkStmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +36,7 @@ $stmt->close();
   <meta charset="UTF-8">
   <title><?php echo htmlspecialchars($user['username']); ?> Profile</title>
   <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body>
@@ -45,9 +54,14 @@ $stmt->close();
       </p>
 
       <div class="actions">
-        <button class="follow">
-          Follow
-        </button>
+        <?php if ($logged_in_user_id != $user_id): ?>
+          <form action="../includes/follow.php" method="POST">
+            <input type="hidden" name="friend_id" value="<?php echo $user_id; ?>">
+            <button type="submit" class="follow">
+              <?php echo $isFollowing ? 'Unfollow' : 'Follow'; ?>
+            </button>
+          </form>
+        <?php endif; ?>
       </div>
 
     </div>
@@ -77,21 +91,14 @@ $stmt->close();
           <div class="post">
             <div class="post-header">
               <strong><?php echo htmlspecialchars($post['username']); ?></strong>
-
-              <p style="color: white;"><?php echo htmlspecialchars($post['time_ago']); ?> </p>
+              <p style="color: white;"><?php echo htmlspecialchars($post['time_ago']); ?></p>
             </div>
 
             <div class="post-body">
-              <p>
-                <?php echo htmlspecialchars($post['caption']); ?>
-              </p>
-              <img>
-
-              </img>
+              <p><?php echo htmlspecialchars($post['caption']); ?></p>
             </div>
 
             <div class="post-interaction">
-              <!-- Small form for the like action -->
               <form action="../includes/like_post.php" method="POST" style="display:inline;">
                 <input type="hidden" name="post_id" value="<?php echo $post['post_id']; ?>">
                 <button type="submit" class="like-btn">
@@ -107,6 +114,10 @@ $stmt->close();
       <?php else: ?>
         <p>No posts yet!</p>
       <?php endif; ?>
+
+    </div>
+
+  </div>
 
 </body>
 

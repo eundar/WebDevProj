@@ -16,13 +16,15 @@ if (!empty($all_friends)):
 
   <body>
     <section class="friend-list-section">
-      <p style="margin:1rem;">Friends</p>
+      <p style="margin:1rem;">Following</p>
       <hr>
       <ul class="friend-list">
         <?php foreach ($all_friends as $friend): ?>
           <li>
             <figure class="friend-profile"></figure>
-            <p class="friend-name"><?php echo htmlspecialchars($friend); ?></p>
+              <a href="../pages/profile.php?id=<?php echo $friend['user_id']; ?>">
+                <p class="friend-name"><?php echo htmlspecialchars($friend['username']); ?></p>
+              </a>
           </li>
         <?php endforeach; ?>
       </ul>
@@ -33,11 +35,11 @@ if (!empty($all_friends)):
 
   <body>
     <section class="friend-list-section">
-      <p style="margin:1rem;">Friends</p>
+      <p style="margin:1rem;">Following</p>
       <hr>
       <ul class="friend-list">
         <li>
-          <p>You Got No Friends<br />:< </p>
+          <p>You Are Not Following Anyone<br />:< </p>
         </li>
       </ul>
     </section>

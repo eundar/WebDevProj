@@ -3,46 +3,48 @@ include '../db_config/db.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $content = trim($_POST['postContent'] ?? '');
-
-  // IMPORTANT: Use the user_id from the session, not the username
+  $content   = trim($_POST['postContent'] ?? '');
   $author_id = $_SESSION['user_id'];
+  $image_name = NULL;
 
   if ($content === '') {
     echo "Cannot submit empty post.";
     exit();
   }
 
-  // Safety check to ensure the user is actually logged in
-  if (empty($connection) || empty($author_id)) {
-    echo "Error: You must be logged in to post.";
+  // Handle image upload if one was provided
+  if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $allowed)) {
+      echo "Invalid file type.";
+      exit();
+    }
+
+    // Create unique filename
+    $image_name = uniqid('img_') . '.' . $ext;
+    $upload_dir = '../uploads/';
+
+    // Create folder if it doesn't exist
+    if (!is_dir($upload_dir)) {
+      mkdir($upload_dir, 0755, true);
+    }
+
+    move_uploaded_file($_FILES['image']['tmp_name'], $upload_dir . $image_name);
+  }
+
+  $query = "INSERT INTO posts (caption, author_id, image, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)";
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "sss", $content, $author_id, $image_name);
+
+  if (!mysqli_stmt_execute($stmt)) {
+    echo "Database Error: " . mysqli_stmt_error($stmt);
     exit();
   }
 
-  function create_post($connection, $author_id, $content)
-  {
-    // Updated query to use 'caption' and 'author_id'
-    $query = "INSERT INTO posts (caption, author_id, created_at) VALUES (?, ?, CURRENT_TIMESTAMP)";
-    $stmt = mysqli_prepare($connection, $query);
-
-    if (!$stmt) return mysqli_error($connection);
-
-    // "si" means: first param is a String (caption), second is an Integer (author_id)
-    mysqli_stmt_bind_param($stmt, "si", $content, $author_id);
-
-    if (!mysqli_stmt_execute($stmt)) return mysqli_stmt_error($stmt);
-
-    mysqli_stmt_close($stmt);
-    return true;
-  }
-
-  $result = create_post($connection, $author_id, $content);
-
-  if ($result !== true) {
-    echo "Database Error: " . $result;
-    exit();
-  }
-
+  mysqli_stmt_close($stmt);
   header("Location: ../index.php");
   exit();
 }
+?>

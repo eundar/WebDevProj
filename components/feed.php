@@ -29,18 +29,18 @@
 
       <div class="post">
         <div class="post-header">
-          <strong><?php echo htmlspecialchars($post['username']); ?></strong>
+            <a href="../pages/profile.php?id=<?php echo $post['author_id']; ?>">
+              <strong><?php echo htmlspecialchars($post['username']); ?></strong>
+            </a>
 
           <p style="color: white;"><?php echo htmlspecialchars($post['time_ago']); ?> </p>
         </div>
 
         <div class="post-body">
-          <p>
-            <?php echo htmlspecialchars($post['caption']); ?>
-          </p>
-          <img>
-
-          </img>
+          <p><?php echo htmlspecialchars($post['caption']); ?></p>
+            <?php if (!empty($post['image'])): ?>
+              <img src="../uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="post image">
+          <?php endif; ?>
         </div>
 
         <div class="post-interaction">

@@ -5,7 +5,7 @@ function get_friends($connection, $user_id)
 {
   // We look for 'friend_id' where 'user_id' is ME
   // We JOIN with the users table to get their actual names
-  $query = "SELECT users.username 
+  $query = "SELECT users.user_id, users.username
             FROM friends 
             JOIN users ON friends.friend_id = users.user_id 
             WHERE friends.user_id = ?";
@@ -24,8 +24,8 @@ function get_friends($connection, $user_id)
   $friends_list = [];
 
   while ($row = mysqli_fetch_assoc($result)) {
-    // This collects all the usernames into an array
-    $friends_list[] = $row['username'];
+    // This collects all the friend information into an array
+    $friends_list[] = $row;
   }
 
   mysqli_stmt_close($stmt);

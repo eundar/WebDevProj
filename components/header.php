@@ -19,9 +19,11 @@
 
     <i class="fas fa-bell"></i>
 
-    <figure class="userprofile">
-      <img src="<?php echo $profile_pic; ?>">
-    </figure>
+    <a href="../pages/profile.php?id=<?php echo $_SESSION['user_id']; ?>">
+      <figure class="userprofile">
+        <img src="<?php echo $profile_pic; ?>">
+      </figure>
+    </a>
 
   </div>
 </header>
