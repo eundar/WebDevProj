@@ -99,11 +99,11 @@ $checkStmt->close();
             </div>
 
             <div class="post-interaction">
-              <form action="../includes/like_post.php" method="POST" style="display:inline;">
+              <form action="../includes/like_post.php" method="POST" class="like-form" style="display:inline;" data-post-id="<?php echo $post['post_id']; ?>">
                 <input type="hidden" name="post_id" value="<?php echo $post['post_id']; ?>">
                 <button type="submit" class="like-btn">
                   <i class="fas fa-thumbs-up"></i>
-                  Like (<?php echo $post['total_likes'] ?? 0 ?>)
+                  Like (<span class="like-count"><?php echo $post['total_likes'] ?? 0 ?></span>)
                 </button>
               </form>
             </div>
@@ -118,6 +118,43 @@ $checkStmt->close();
     </div>
 
   </div>
+
+  <script>
+    document.addEventListener('submit', function(event) {
+      const form = event.target.closest('.like-form');
+      if (!form) return;
+
+      event.preventDefault();
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (!data.success) {
+            alert(data.message || 'Could not update like count.');
+            return;
+          }
+
+          const button = form.querySelector('.like-btn');
+          const countSpan = button.querySelector('.like-count');
+          if (countSpan) {
+            countSpan.textContent = data.likes;
+          } else {
+            button.innerHTML = `<i class="fas fa-thumbs-up"></i> Like (${data.likes})`;
+          }
+        })
+        .catch(error => {
+          console.error('Like request failed:', error);
+          alert('Unable to update like right now.');
+        });
+    });
+  </script>
 
 </body>
 

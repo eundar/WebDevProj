@@ -69,6 +69,41 @@ $user_id = $_SESSION['user_id'];
         resultsBox.style.display = "none";
       }
     });
+
+    document.addEventListener("submit", function(event) {
+      const form = event.target.closest('.like-form');
+      if (!form) return;
+
+      event.preventDefault();
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (!data.success) {
+            alert(data.message || 'Could not update like count.');
+            return;
+          }
+
+          const button = form.querySelector('.like-btn');
+          const countSpan = button.querySelector('.like-count');
+          if (countSpan) {
+            countSpan.textContent = data.likes;
+          } else {
+            button.innerHTML = `<i class="fas fa-thumbs-up"></i> Like (${data.likes})`;
+          }
+        })
+        .catch(error => {
+          console.error('Like request failed:', error);
+          alert('Unable to update like right now.');
+        });
+    });
   </script>
 
 </body>

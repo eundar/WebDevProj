@@ -29,27 +29,27 @@
 
       <div class="post">
         <div class="post-header">
-            <a href="../pages/profile.php?id=<?php echo $post['author_id']; ?>">
-              <strong><?php echo htmlspecialchars($post['username']); ?></strong>
-            </a>
+          <a href="../pages/profile.php?id=<?php echo $post['author_id']; ?>">
+            <strong><?php echo htmlspecialchars($post['username']); ?></strong>
+          </a>
 
           <p style="color: white;"><?php echo htmlspecialchars($post['time_ago']); ?> </p>
         </div>
 
         <div class="post-body">
           <p><?php echo htmlspecialchars($post['caption']); ?></p>
-            <?php if (!empty($post['image'])): ?>
-              <img src="../uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="post image">
+          <?php if (!empty($post['image'])): ?>
+            <img src="../uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="post image">
           <?php endif; ?>
         </div>
 
         <div class="post-interaction">
           <!-- Small form for the like action -->
-          <form action="../includes/like_post.php" method="POST" style="display:inline;">
+          <form action="../includes/like_post.php" method="POST" class="like-form" style="display:inline;" data-post-id="<?php echo $post['post_id']; ?>">
             <input type="hidden" name="post_id" value="<?php echo $post['post_id']; ?>">
             <button type="submit" class="like-btn">
               <i class="fas fa-thumbs-up"></i>
-              Like (<?php echo $post['total_likes'] ?? 0 ?>)
+              Like (<span class="like-count"><?php echo $post['total_likes'] ?? 0 ?></span>)
             </button>
           </form>
         </div>
