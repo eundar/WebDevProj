@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-</head>
-
-<body>
-  <div class="modal fade" id="show_comment" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Comments</h5>
-          <button type="button" data-bs-dismiss="modal">X</button>
-        </div>
-        <div class="modal-body">
-          Your comments here...
-        </div>
+<div id="commentsModal" class="comments-modal">
+  <div class="comments-modal-content">
+    <div class="comments-modal-header">
+      <h3>Comments</h3>
+      <span class="close-comments-btn">&times;</span>
+    </div>
+    <div class="comments-modal-body">
+      <div id="commentsList" class="comments-list">
+        <!-- Comments will be loaded here -->
+      </div>
+      <div class="comments-loader" id="commentsLoader" style="display: none;">
+        <p>Loading comments...</p>
       </div>
     </div>
+    <div class="comments-modal-footer">
+      <textarea id="commentText" placeholder="Write a comment..."></textarea>
+      <button id="submitCommentBtn" class="submit-comment-btn">Post Comment</button>
+    </div>
   </div>
-</body>
-
-</html>
+</div>

@@ -26,9 +26,13 @@ if (!empty($all_posts)):
 
       <div class="post-body">
         <p><?php echo htmlspecialchars($post['caption']); ?></p>
+        <?php if (!empty($post['image'])): ?>
+          <img src="../uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="post image">
+        <?php endif; ?>
       </div>
 
       <div class="post-interaction">
+        <!-- Like button -->
         <form action="../includes/like_post.php" method="POST" class="like-form" style="display:inline;" data-post-id="<?php echo $post['post_id']; ?>">
           <input type="hidden" name="post_id" value="<?php echo $post['post_id']; ?>">
           <button type="submit" class="like-btn">
@@ -36,6 +40,12 @@ if (!empty($all_posts)):
             Like (<span class="like-count"><?php echo $post['total_likes'] ?? 0 ?></span>)
           </button>
         </form>
+
+        <!-- Show Comments button -->
+        <button class="comments-btn" data-post-id="<?php echo $post['post_id']; ?>">
+          <i class="fas fa-comments"></i>
+          Comments
+        </button>
       </div>
     </div>
 
