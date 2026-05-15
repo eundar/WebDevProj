@@ -37,7 +37,7 @@ $profile_pic = !empty($user['profile_pic']) ? $user['profile_pic'] : '../assets/
 
 <head>
   <meta charset="UTF-8">
-  <title><?php echo htmlspecialchars($user['username']); ?> Profile</title>
+  <title> Profile</title>
   <link rel="stylesheet" href="../css/profile.css">
   <link rel="stylesheet" href="../css/header.css">
   <link rel="stylesheet" href="../css/style.css">
