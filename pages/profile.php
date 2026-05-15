@@ -27,6 +27,9 @@ $checkStmt->bind_param("ii", $logged_in_user_id, $user_id);
 $checkStmt->execute();
 $isFollowing = $checkStmt->get_result()->num_rows > 0;
 $checkStmt->close();
+
+/* Set profile picture with fallback to default */
+$profile_pic = !empty($user['profile_pic']) ? $user['profile_pic'] : '../assets/defaultprofile.png';
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +87,69 @@ $checkStmt->close();
   </main>
 
   <script>
+    //livesearch script//////////////////////
+    const input = document.getElementById("searchInput");
+    const resultsBox = document.getElementById("searchResults");
+
+    input.addEventListener("keyup", function() {
+      let query = this.value.trim();
+
+      if (query.length === 0) {
+        resultsBox.style.display = "none";
+        resultsBox.innerHTML = "";
+        return;
+      }
+
+      fetch("../includes/live_search.php?q=" + encodeURIComponent(query))
+        .then(res => res.text())
+        .then(data => {
+          resultsBox.innerHTML = data;
+          resultsBox.style.display = "block";
+        });
+    });
+
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".searchbar")) {
+        resultsBox.style.display = "none";
+      }
+    });
+
+    document.addEventListener("submit", function(event) {
+      const form = event.target.closest('.like-form');
+      if (!form) return;
+
+      event.preventDefault();
+      const formData = new FormData(form);
+
+      fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (!data.success) {
+            alert(data.message || 'Could not update like count.');
+            return;
+          }
+
+          const button = form.querySelector('.like-btn');
+          const countSpan = button.querySelector('.like-count');
+          if (countSpan) {
+            countSpan.textContent = data.likes;
+          } else {
+            button.innerHTML = `<i class="fas fa-thumbs-up"></i> Like (${data.likes})`;
+          }
+        })
+        .catch(error => {
+          console.error('Like request failed:', error);
+          alert('Unable to update like right now.');
+        });
+    });
+    /////////////////////////////////////////
+
     document.addEventListener('submit', function(event) {
       const form = event.target.closest('.like-form');
       if (!form) return
