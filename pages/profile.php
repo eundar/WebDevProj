@@ -27,6 +27,15 @@ $checkStmt->bind_param("ii", $logged_in_user_id, $user_id);
 $checkStmt->execute();
 $isFollowing = $checkStmt->get_result()->num_rows > 0;
 $checkStmt->close();
+
+/* Get logged-in user's profile picture for header */
+$headerStmt = $connection->prepare("SELECT profile_pic FROM users WHERE user_id = ?");
+$headerStmt->bind_param("i", $logged_in_user_id);
+$headerStmt->execute();
+$headerResult = $headerStmt->get_result();
+$headerUser = $headerResult->fetch_assoc();
+$profile_pic = !empty($headerUser['profile_pic']) ? $headerUser['profile_pic'] : '../assets/defaultprofile.png';
+$headerStmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +93,31 @@ $checkStmt->close();
   </main>
 
   <script>
+    const input = document.getElementById("searchInput");
+    const resultsBox = document.getElementById("searchResults");
+
+    input.addEventListener("keyup", function() {
+      let query = this.value.trim();
+
+      if (query.length === 0) {
+        resultsBox.style.display = "none";
+        resultsBox.innerHTML = "";
+        return;
+      }
+
+      fetch("../includes/live_search.php?q=" + encodeURIComponent(query))
+        .then(res => res.text())
+        .then(data => {
+          resultsBox.innerHTML = data;
+          resultsBox.style.display = "block";
+        });
+    });
+
+    document.addEventListener("click", function(e) {
+      if (!e.target.closest(".searchbar")) {
+        resultsBox.style.display = "none";
+      }
+    });
     document.addEventListener('submit', function(event) {
       const form = event.target.closest('.like-form');
       if (!form) return
