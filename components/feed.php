@@ -15,12 +15,17 @@
   <?php
   include '../includes/get_all_posts.php';
 
+  if (session_status() === PHP_SESSION_NONE) session_start();
+  $current_user_id = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : 0;
+
   $query = "SELECT posts.*, users.username, COUNT(likes.like_id) AS total_likes
-            FROM posts 
-            JOIN users ON posts.author_id = users.user_id 
-            LEFT JOIN likes ON posts.post_id = likes.post_id
-            GROUP BY posts.post_id
-            ORDER BY posts.created_at DESC";
+          FROM posts 
+          JOIN users ON posts.author_id = users.user_id 
+          LEFT JOIN likes ON posts.post_id = likes.post_id
+          WHERE posts.author_id IN (SELECT friend_id FROM friends WHERE user_id = $current_user_id)
+            OR posts.author_id = $current_user_id
+          GROUP BY posts.post_id
+          ORDER BY posts.created_at DESC";
 
   $all_posts = get_all_posts($connection, $query);
 
