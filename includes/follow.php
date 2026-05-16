@@ -17,20 +17,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  // Check if already friends
+  // Check if already following
   $check = $connection->prepare("SELECT * FROM friends WHERE user_id = ? AND friend_id = ?");
   $check->bind_param("ii", $user_id, $friend_id);
   $check->execute();
   $result = $check->get_result();
 
   if ($result->num_rows === 0) {
-    // Not yet friends, so add
+    // Not yet following, so add
     $stmt = $connection->prepare("INSERT INTO friends (user_id, friend_id) VALUES (?, ?)");
     $stmt->bind_param("ii", $user_id, $friend_id);
     $stmt->execute();
     $stmt->close();
+
+    // Insert follow notification
+    $notif = $connection->prepare("INSERT INTO notifications (user_id, from_user_id, type) VALUES (?, ?, 'follow')");
+    $notif->bind_param("ii", $friend_id, $user_id);
+    $notif->execute();
+    $notif->close();
   } else {
-    // Already friends, so unfollow
+    // Already following, so unfollow
     $stmt = $connection->prepare("DELETE FROM friends WHERE user_id = ? AND friend_id = ?");
     $stmt->bind_param("ii", $user_id, $friend_id);
     $stmt->execute();
