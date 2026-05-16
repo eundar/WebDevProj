@@ -16,23 +16,35 @@ if (!empty($all_posts)):
   foreach ($all_posts as $post):
 ?>
 
-    <div class="post">
+    <div class="post" id="post-<?php echo $post['post_id']; ?>">
       <div class="post-header">
         <a href="../pages/profile.php?id=<?php echo $post['author_id']; ?>">
           <strong><?php echo htmlspecialchars($post['username']); ?></strong>
         </a>
         <p style="color: white;"><?php echo htmlspecialchars($post['time_ago']); ?></p>
+
+        <?php if ($logged_in_user_id == $user_id): ?>
+          <div class="post-actions">
+            <button class="edit-post-btn"
+              data-post-id="<?php echo $post['post_id']; ?>"
+              data-caption="<?php echo htmlspecialchars($post['caption']); ?>">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="delete-post-btn" data-post-id="<?php echo $post['post_id']; ?>">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        <?php endif; ?>
       </div>
 
       <div class="post-body">
-        <p><?php echo htmlspecialchars($post['caption']); ?></p>
+        <p class="post-caption"><?php echo htmlspecialchars($post['caption']); ?></p>
         <?php if (!empty($post['image'])): ?>
           <img src="../uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="post image">
         <?php endif; ?>
       </div>
 
       <div class="post-interaction">
-        <!-- Like button -->
         <form action="../includes/like_post.php" method="POST" class="like-form" style="display:inline;" data-post-id="<?php echo $post['post_id']; ?>">
           <input type="hidden" name="post_id" value="<?php echo $post['post_id']; ?>">
           <button type="submit" class="like-btn">
@@ -41,7 +53,6 @@ if (!empty($all_posts)):
           </button>
         </form>
 
-        <!-- Show Comments button -->
         <button class="comments-btn" data-post-id="<?php echo $post['post_id']; ?>">
           <i class="fas fa-comments"></i>
           Comments

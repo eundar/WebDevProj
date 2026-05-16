@@ -1,13 +1,14 @@
 @import url("root.css");
 @import url("feed.css");
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-body{
-   font-family: var(--normal-text-font);
+body {
+  font-family: var(--normal-text-font);
 }
 
 .profile-container {
@@ -44,7 +45,7 @@ body{
   border-radius: 8px;
 }
 
-.actions{
+.actions {
   height: 3rem;
   display: flex;
   align-items: center;
@@ -62,12 +63,169 @@ body{
   font-weight: bold;
 }
 
-.follow:hover{
+.follow:hover {
   background-color: var(--ligth-brown-color);
 }
 
-.follow:active{
+.follow:active {
   background-color: white;
-  color:black ;
+  color: black;
   border-style: solid;
+}
+
+/* ── EDIT PROFILE BUTTON ── */
+.edit-profile-btn {
+  background: none;
+  border: 1px solid var(--dark-brown-color);
+  color: var(--dark-brown-color);
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.edit-profile-btn:hover {
+  background: var(--dark-brown-color);
+  color: white;
+}
+
+/* ── POST ACTIONS ── */
+.post-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-post-btn,
+.delete-post-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  color: white;
+}
+
+.edit-post-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.delete-post-btn:hover {
+  background: rgba(255, 80, 80, 0.3);
+}
+
+/* ── MODAL OVERLAYS ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  width: min(460px, 92vw);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-box h3 {
+  margin-bottom: 1.2rem;
+  font-size: 1.2rem;
+  color: var(--dark-brown-color);
+}
+
+.modal-box label {
+  display: block;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+  margin-top: 0.9rem;
+}
+
+.modal-box input[type="text"],
+.modal-box textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.modal-box input[type="file"] {
+  margin-top: 0.4rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.btn-cancel-modal {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-save-modal {
+  padding: 0.5rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  background: var(--dark-brown-color);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-save-modal:hover {
+  opacity: 0.85;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #888;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #333;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  transition: transform 0.3s ease;
+  z-index: 3000;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
 }
